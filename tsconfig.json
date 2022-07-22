@@ -5,7 +5,5 @@
     "outDir": "./dist",
     "allowJs": true,
     "esModuleInterop": true
-
-    // "forceConsistentCasingInFileNames": true
   }
 }
