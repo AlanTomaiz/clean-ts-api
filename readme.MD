@@ -6,12 +6,12 @@ O objetivo do treinamento é mostrar como criar uma API com uma arquitetura bem 
 
 ## APIs previstas para esse treinamento
 
-[ ] - Cadastro
-[ ] - Login
-[ ] - Criar enquete
-[ ] - Listar enquetes
-[ ] - Responder enquete
-[ ] - Resultado da enquete
+1. Cadastro
+2. Login
+3. Criar enquete
+4. Listar enquetes
+5. Responder enquete
+6. Resultado da enquete
 
 ---
 Made by [Rodrigo Manguinho](https://www.udemy.com/course/tdd-com-mango/?referralCode=B53CE5CA2B9AFA5A6FA1).
