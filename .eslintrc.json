@@ -20,6 +20,8 @@
         "consistent-return": "off",
         "no-restricted-syntax": "off",
         "class-methods-use-this": "off",
+        "no-empty-function": "off",
+        "no-useless-constructor": "off",
         "import/prefer-default-export": "off",
         "import/extensions": [
             "error",
