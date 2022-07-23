@@ -3,10 +3,12 @@ import {
 } from '../protocols';
 import { InvalidParamError, MissingParamError } from '../errors';
 import { badRequest, serverError } from '../helpers/http-helper';
+import { AddAccount } from '../../domain/usecases/add-acount';
 
 export class SignUpController implements Controller {
   constructor(
     private readonly emailValidator: EmailValidator,
+    private readonly addAccount: AddAccount,
   ) {}
 
   handle(httpRequest: HttpRequest): HttpResponse {
@@ -31,6 +33,8 @@ export class SignUpController implements Controller {
       if (password !== passwordConfirmation) {
         return badRequest(new InvalidParamError('passwordConfirmation'));
       }
+
+      this.addAccount.create({ name, email, password });
     } catch (error) {
       return serverError();
     }
