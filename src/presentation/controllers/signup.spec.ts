@@ -1,6 +1,7 @@
+/* eslint-disable max-classes-per-file */
 import { SignUpController } from './signup';
 import { EmailValidator } from '../protocols';
-import { MissingParamError, InvalidParamError } from '../errors';
+import { MissingParamError, InvalidParamError, ServerError } from '../errors';
 
 interface SutTypes {
   sut: SignUpController
@@ -11,6 +12,16 @@ const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
     isValid(email: string): boolean {
       return true;
+    }
+  }
+
+  return new EmailValidatorStub();
+};
+
+const makeEmailValidatorWithError = (): EmailValidator => {
+  class EmailValidatorStub implements EmailValidator {
+    isValid(email: string): boolean {
+      throw new Error();
     }
   }
 
@@ -121,5 +132,23 @@ describe('SignUp Controller', () => {
 
     sut.handle(httpRequest);
     expect(jestSpy).toHaveBeenCalledWith(httpRequest.body.email);
+  });
+
+  test('Should be return status 500 if EmailValidator has error', () => {
+    const emailValidatorErrorStub = makeEmailValidatorWithError();
+    const sut = new SignUpController(emailValidatorErrorStub);
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+    expect(httpResponse.statusCode).toBe(500);
+    expect(httpResponse.body).toEqual(new ServerError());
   });
 });
