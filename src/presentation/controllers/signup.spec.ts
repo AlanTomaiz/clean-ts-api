@@ -123,6 +123,23 @@ describe('SignUp Controller', () => {
     expect(jestSpy).toHaveBeenCalledWith(httpRequest.body.email);
   });
 
+  test('Should be return status 400 if password confirmations is fail', () => {
+    const { sut } = makeSut();
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'invalid_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'invalid_password',
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'));
+  });
+
   test('Should be return status 500 if EmailValidator has error', () => {
     const { sut, emailValidatorStub } = makeSut();
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
